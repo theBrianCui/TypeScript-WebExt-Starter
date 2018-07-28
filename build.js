@@ -2,34 +2,26 @@ const cpx = require("cpx");
 const rollup = require("rollup");
 const tsPlugin = require("rollup-plugin-typescript2");
 
-async function buildPopup() {
-    const inputOptions = {
-        input: "src/popup/popup.ts",
-        plugins: [tsPlugin()],
-    };
-    const outputOptions = {
-        file: "build/popup/popup.js",
-        format: "umd",
-    };
+const BASE_SRC_PATH = "src/";
+const BASE_BUILD_PATH = "build/";
 
-    const bundle = await rollup.rollup(inputOptions);
-    await bundle.write(outputOptions);
-}
-
-async function buildContent() {
-        const inputOptions = {
-            input: "src/content/content.ts",
+const inputConfigs = ["popup/popup.ts", "content/content.ts"]
+    .map(file => [
+        {
+            input: BASE_SRC_PATH + file,
             plugins: [tsPlugin()],
-        };
-        const outputOptions = {
-            file: "build/content/content.js",
+        },
+        {
+            file: BASE_BUILD_PATH + file,
             format: "umd",
-        };
+        },
+    ]);
 
-        const bundle = await rollup.rollup(inputOptions);
-        await bundle.write(outputOptions);
+async function build(config) {
+    const bundle = await rollup.rollup(config[0]);
+    await bundle.write(config[1]);
 }
 
-buildPopup();
-buildContent();
-cpx.copy("src/**/*.{css,html,jpg,png,json}", "build/");
+inputConfigs.forEach(config => build(config));
+cpx.copy(BASE_SRC_PATH + "**/*.{css,html,jpg,png}", BASE_BUILD_PATH);
+cpx.copy(BASE_SRC_PATH + "manifest.json", BASE_BUILD_PATH);
