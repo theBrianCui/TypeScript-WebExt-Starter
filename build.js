@@ -1,3 +1,4 @@
+const cpx = require("cpx");
 const rollup = require("rollup");
 
 async function buildPopup() {
@@ -28,3 +29,4 @@ async function buildContent() {
 
 buildPopup();
 buildContent();
+cpx.copy("src/**/*.{css,html,jpg,png,json}", "build/");
