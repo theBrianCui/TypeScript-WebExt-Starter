@@ -11,12 +11,12 @@ const hidePage = `body > :not(.beastify-image) {
 * the content script in the page.
 */
 function listenForClicks() {
-    document.addEventListener("click", (e) => {
+    document.addEventListener("click", (e: MouseEvent) => {
 
         /**
         * Given the name of a beast, get the URL to the corresponding image.
         */
-        function beastNameToURL(beastName) {
+        function beastNameToURL(beastName: any) {
             switch (beastName) {
                 case "Frog":
                     return browser.extension.getURL("static/frog.jpg");
@@ -32,9 +32,9 @@ function listenForClicks() {
         * then get the beast URL and
         * send a "beastify" message to the content script in the active tab.
         */
-        function beastify(tabs) {
+        function beastify(tabs: browser.tabs.Tab[]) {
             browser.tabs.insertCSS({ code: hidePage }).then(() => {
-                let url = beastNameToURL(e.target.textContent);
+                let url = beastNameToURL((e.target as HTMLElement).textContent);
                 browser.tabs.sendMessage(tabs[0].id, {
                     command: "beastify",
                     beastURL: url
@@ -46,7 +46,7 @@ function listenForClicks() {
         * Remove the page-hiding CSS from the active tab,
         * send a "reset" message to the content script in the active tab.
         */
-        function reset(tabs) {
+        function reset(tabs: browser.tabs.Tab[]) {
             browser.tabs.removeCSS({ code: hidePage }).then(() => {
                 browser.tabs.sendMessage(tabs[0].id, {
                     command: "reset",
@@ -57,7 +57,7 @@ function listenForClicks() {
         /**
         * Just log the error to the console.
         */
-        function reportError(error) {
+        function reportError(error: string) {
             console.error(`Could not beastify: ${error}`);
         }
 
@@ -65,12 +65,12 @@ function listenForClicks() {
         * Get the active tab,
         * then call "beastify()" or "reset()" as appropriate.
         */
-        if (e.target.classList.contains("beast")) {
+        if ((e.target as HTMLElement).classList.contains("beast")) {
             browser.tabs.query({ active: true, currentWindow: true })
                 .then(beastify)
                 .catch(reportError);
         }
-        else if (e.target.classList.contains("reset")) {
+        else if ((e.target as HTMLElement).classList.contains("reset")) {
             browser.tabs.query({ active: true, currentWindow: true })
                 .then(reset)
                 .catch(reportError);
@@ -82,7 +82,7 @@ function listenForClicks() {
 * There was an error executing the script.
 * Display the popup's error message, and hide the normal UI.
 */
-function reportExecuteScriptError(error) {
+function reportExecuteScriptError(error: any) {
     document.querySelector("#popup-content").classList.add("hidden");
     document.querySelector("#error-content").classList.remove("hidden");
     console.error(`Failed to execute beastify content script: ${error.message}`);

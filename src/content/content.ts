@@ -4,17 +4,17 @@
      * If this content script is injected into the same page again,
      * it will do nothing next time.
      */
-    if (window.hasRun) {
+    if ((window as any).hasRun) {
         return;
     }
-    window.hasRun = true;
+    (window as any).hasRun = true;
 
     /**
      * Given a URL to a beast image, remove all existing beasts, then
      * create and style an IMG node pointing to
      * that image, then insert the node into the document.
      */
-    function insertBeast(beastURL) {
+    function insertBeast(beastURL: string) {
         removeExistingBeasts();
         let beastImage = document.createElement("img");
         beastImage.setAttribute("src", beastURL);
@@ -28,7 +28,7 @@
      */
     function removeExistingBeasts() {
         let existingBeasts = document.querySelectorAll(".beastify-image");
-        for (let beast of existingBeasts) {
+        for (let beast of Array.from(existingBeasts)) {
             beast.remove();
         }
     }
