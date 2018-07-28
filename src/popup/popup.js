@@ -19,11 +19,11 @@ function listenForClicks() {
         function beastNameToURL(beastName) {
             switch (beastName) {
                 case "Frog":
-                    return browser.extension.getURL("beasts/frog.jpg");
+                    return browser.extension.getURL("static/frog.jpg");
                 case "Snake":
-                    return browser.extension.getURL("beasts/snake.jpg");
+                    return browser.extension.getURL("static/snake.jpg");
                 case "Turtle":
-                    return browser.extension.getURL("beasts/turtle.jpg");
+                    return browser.extension.getURL("static/turtle.jpg");
             }
         }
 
@@ -93,6 +93,6 @@ function reportExecuteScriptError(error) {
 * and add a click handler.
 * If we couldn't inject the script, handle the error.
 */
-browser.tabs.executeScript({ file: "/content_scripts/beastify.js" })
+browser.tabs.executeScript({ file: "/content/content.js" })
     .then(listenForClicks)
     .catch(reportExecuteScriptError);
