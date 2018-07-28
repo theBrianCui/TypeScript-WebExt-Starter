@@ -1,9 +1,12 @@
+// @ts-ignore
+import { browser } from "webextension-polyfill-ts";
+/// <reference types="firefox-webext-browser" />
+
 (function () {
     /**
      * Check and set a global guard variable.
      * If this content script is injected into the same page again,
-     * it will do nothing next time.
-     */
+     * it will do nothing next time. */
     if ((window as any).hasRun) {
         return;
     }
@@ -37,7 +40,7 @@
      * Listen for messages from the background script.
      * Call "beastify()" or "reset()".
     */
-    browser.runtime.onMessage.addListener((message) => {
+    browser.runtime.onMessage.addListener((message: any) => {
         if (message.command === "beastify") {
             insertBeast(message.beastURL);
         } else if (message.command === "reset") {
