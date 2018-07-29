@@ -2,7 +2,8 @@
     "compilerOptions": {
         "declaration": true,
         "declarationDir": "./dist",
-        "module": "ESNext",
+        "module": "es2015",
+        "moduleResolution": "Node",
         "noImplicitAny": true,
         "outDir": "./dist",
         "target": "es6",
