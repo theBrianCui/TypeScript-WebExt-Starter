@@ -1,5 +1,4 @@
 import { browser } from "webextension-polyfill-ts";
-/// <reference types="firefox-webext-browser" />
 
 (function () {
     /**

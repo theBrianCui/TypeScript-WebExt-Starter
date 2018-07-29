@@ -1,7 +1,5 @@
 {
     "compilerOptions": {
-        "declaration": true,
-        "declarationDir": "./dist",
         "module": "es2015",
         "moduleResolution": "Node",
         "noImplicitAny": true,

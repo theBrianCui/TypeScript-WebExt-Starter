@@ -1,3 +1,5 @@
+import { browser } from "webextension-polyfill-ts";
+
 /**
  * CSS to hide everything on the page,
  * except for elements that have the "beastify-image" class.
