@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "node build.js",
+    "clean": "rm -rf .rpt2_cache/ build/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
