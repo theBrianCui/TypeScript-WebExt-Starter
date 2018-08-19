@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts";
+import { browser, Browser, Tabs } from "webextension-polyfill-ts";
 
 /**
  * CSS to hide everything on the page,
@@ -34,7 +34,7 @@ function listenForClicks() {
         * then get the beast URL and
         * send a "beastify" message to the content script in the active tab.
         */
-        function beastify(tabs: browser.tabs.Tab[]) {
+        function beastify(tabs: Tabs.Tab[]) {
             browser.tabs.insertCSS({ code: hidePage }).then(() => {
                 let url = beastNameToURL((e.target as HTMLElement).textContent);
                 browser.tabs.sendMessage(tabs[0].id, {
@@ -48,7 +48,7 @@ function listenForClicks() {
         * Remove the page-hiding CSS from the active tab,
         * send a "reset" message to the content script in the active tab.
         */
-        function reset(tabs: browser.tabs.Tab[]) {
+        function reset(tabs: Tabs.Tab[]) {
             browser.tabs.removeCSS({ code: hidePage }).then(() => {
                 browser.tabs.sendMessage(tabs[0].id, {
                     command: "reset",
