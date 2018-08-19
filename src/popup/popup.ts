@@ -47,6 +47,9 @@ function listenForClicks() {
         /**
         * Remove the page-hiding CSS from the active tab,
         * send a "reset" message to the content script in the active tab.
+        * 
+        * Note: Chrome currently does not support removeCSS and this method call
+        * will throw an error. See https://crbug.com/608854
         */
         function reset(tabs: Tabs.Tab[]) {
             browser.tabs.removeCSS({ code: hidePage }).then(() => {
